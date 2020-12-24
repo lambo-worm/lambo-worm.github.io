@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Hello World - lambo</title>
+  <title>切片 - lambo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hello World">
+            <span class="h2" id="subtitle" title="切片">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-12-16 20:50" pubdate>
-        2020年12月16日 晚上
+      <time datetime="2020-12-23 21:23" pubdate>
+        2020年12月23日 晚上
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      985 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      12
        分钟
     </span>
   
@@ -224,22 +224,48 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">切片</h1>
             
             <div class="markdown-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+              <h1 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h1><ul>
+<li><p>定义</p>
+<ul>
+<li><p>《go程序设计语言》中的定义：</p>
+<p>slice 标识一个拥有相同类型元素的可变长度的序列。slice通常写成 []T，其中元素的类型都是T；他看上去像没有长度的数组类型。</p>
+<p>数组和slice是紧密关联的。slice是一种轻量级的数据结构，可以用来访问数组的部分或者全部的元素，而这个数组成为slice的底层数组。slice有三个属性：指针、长度和容量。指针指向数组的第一个可以从slice中访问的元素，这个元素不一定是数组的第一个元素。长度是指slice中的元素个数，它不能超过slice的容量。容量的大小通常是从slice的其实元素到底层数组的最后一个元素捡元素的个数。go的内置函数len和cap用来返回slice的长度和容量。</p>
+</li>
+<li><p>极客时间中的定义：</p>
+<p>切片与数组类似，但是切片的类型字面量中只有元素的类型，而没有长度，切片的长度可以自动地随着其中元素数量的增长二增长，但是不会随着元素数量的减少而减少，切片可以看作是对数组的一层简单的封装，数组可以被叫做切片的底层数组，切片也可以被看作是对数组的某个连续片段的引用，也正是因为次，go语言的切片类型属于引用类型，数组类型则属于值类型。数组的容量永远等于期长度，都是不可变的。但是切片的容量却不是这样，并且切片容量的变化是有规律可循的。</p>
+</li>
+</ul>
+</li>
+<li><p>用法（具体代码）</p>
+<ul>
+<li><p>通过数组得到</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go">months := [...]<span class="hljs-keyword">string</span>&#123;<span class="hljs-number">1</span>:<span class="hljs-string">&quot;January&quot;</span>, <span class="hljs-comment">/**/</span>,<span class="hljs-number">12</span>:<span class="hljs-string">&quot;December&quot;</span>&#125; <span class="hljs-comment">//省略了指定数据元素的具体过程</span><br><span class="hljs-comment">// 通过声明的months数组截取连续的片段得到切片</span><br>Q2 := months[<span class="hljs-number">4</span>:<span class="hljs-number">7</span>]<br>summer := months[<span class="hljs-number">6</span>:<span class="hljs-number">9</span>]<br><span class="hljs-comment">// 通过go自带的方法len()和cap()得到切片的长度和容量</span><br>fmt.Printf(<span class="hljs-string">&quot;Q2的长度:%v, summer的长度:%v, months的长度:%v\n&quot;</span>, <span class="hljs-built_in">len</span>(Q2), <span class="hljs-built_in">len</span>(summer), <span class="hljs-built_in">len</span>(months))<br>fmt.Printf(<span class="hljs-string">&quot;Q2的容量:%v, summer的容量:%v, months的容量:%v\n&quot;</span>, <span class="hljs-built_in">cap</span>(Q2), <span class="hljs-built_in">cap</span>(summer), <span class="hljs-built_in">cap</span>(months))<br>fmt.Printf(<span class="hljs-string">&quot;Q2::%v, summer::%v, months::%v\n&quot;</span>, Q2, summer, months)<br><br><span class="hljs-comment">// 打印结果</span><br>Q2的长度:<span class="hljs-number">3</span>, summer的长度:<span class="hljs-number">3</span>, months的长度:<span class="hljs-number">13</span><br>Q2的容量:<span class="hljs-number">9</span>, summer的容量:<span class="hljs-number">7</span>, months的容量:<span class="hljs-number">13</span><br>Q2::[April May June], summer::[June July August], months::[ January February March April May June July August September October November December]<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>通过make方法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// make创建切片，</span><br><span class="hljs-comment">// make([]T, len), 此时长度和容量相等均为len</span><br><span class="hljs-comment">// make([]T, len, cap)</span><br><span class="hljs-comment">// make([]T, cap)[:len]</span><br>s1 := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">int</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>)<br>s2 := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">string</span>, <span class="hljs-number">4</span>)<br>s3 := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">int</span>, <span class="hljs-number">5</span>)[:<span class="hljs-number">3</span>]<br>fmt.Printf(<span class="hljs-string">&quot;s1的长度：%v, s1的容量：%v\n&quot;</span>, <span class="hljs-built_in">len</span>(s1), <span class="hljs-built_in">cap</span>(s1))<br>fmt.Printf(<span class="hljs-string">&quot;s2的长度：%v, s2的容量：%v\n&quot;</span>, <span class="hljs-built_in">len</span>(s2), <span class="hljs-built_in">cap</span>(s2))<br>fmt.Printf(<span class="hljs-string">&quot;s3的长度：%v, s3的容量：%v\n&quot;</span>, <span class="hljs-built_in">len</span>(s3), <span class="hljs-built_in">cap</span>(s3))<br><br><span class="hljs-comment">// 打印内容</span><br>s1的长度：<span class="hljs-number">3</span>, s1的容量：<span class="hljs-number">5</span><br>s2的长度：<span class="hljs-number">4</span>, s2的容量：<span class="hljs-number">4</span><br>s3的长度：<span class="hljs-number">3</span>, s3的容量：<span class="hljs-number">5</span><br><br><span class="hljs-comment">// 使用make方法即通过make创建了一个无名数组，并返回了该数组的切片，这个切片只能通过该切片访问</span><br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>部分细节</p>
+<ul>
+<li><p>若切片的引用超出容量，则会导致越界，若切片的引用只是超出了长度，则会按照底层数组进行扩充</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go">months := [...]<span class="hljs-keyword">string</span>&#123;<span class="hljs-number">1</span>:<span class="hljs-string">&quot;January&quot;</span>, <span class="hljs-comment">/**/</span>,<span class="hljs-number">12</span>:<span class="hljs-string">&quot;December&quot;</span>&#125;<br>summer := months[<span class="hljs-number">6</span>:<span class="hljs-number">9</span>]<br>s4 := summer[:<span class="hljs-number">5</span>]<br><span class="hljs-comment">//s5 := summer[:13]  会提示slice bounds out of range</span><br>fmt.Printf(<span class="hljs-string">&quot;s4::%v\n&quot;</span>, s4)<br><span class="hljs-comment">// 打印内容</span><br>s4::[June July August September October]<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>与数组有存在差别，切片无法进行比较，除了标准库中提供了bytes.Equal函数来比较两个字节切片（[]byte）</p>
+</li>
+<li><p>切片的零值是nil，值为nil的切片没有底层数组，其长度和容量均为零</p>
+</li>
+</ul>
+</li>
+</ul>
 
             </div>
             <hr>
@@ -256,15 +282,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/12/21/undefined/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">写在前面</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2020/12/22/undefined/">
+                        <span class="hidden-mobile">others</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
