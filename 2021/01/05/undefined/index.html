@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      924 字
+      926 字
     </span>
   
 
@@ -228,7 +228,7 @@
             
             <div class="markdown-body">
               <h1 id="golang-channel"><a href="#golang-channel" class="headerlink" title="golang-channel"></a>golang-channel</h1><ul>
-<li><p>定义</p>
+<li><p>概述</p>
 <ul>
 <li><p>通道是可以让一个goroutine发送特定知道倒另一个goroutine的通信机制。每一个通道是一个具体类型的导管，叫做通道的元素类型，通道的作用是连接各个goroutine。通道为引用类型，零值为nil，同类型的通道可以用“==”进行判等操作。</p>
 </li>
@@ -237,7 +237,7 @@
 <li><p>通道还支持第三种操作：关闭（close），它通过一个标志位来指示当前已经发送完毕，这个通道后面没有值了，关闭后的通道执行发送操作将引发panic，在一个已经关闭的通道上进行操作，将获取所有已经发送的值，直到通道为空；这时任何接收操作都会立即完成，同时获取到一个通道元素类型对应的零值。调用内置函数<code>close(ch)</code>关闭ch通道</p>
 </li>
 <li><p>根据使用场景进行细分，通道有一种单向通道类型</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs go">ch1 <span class="hljs-keyword">chan</span> &lt;- <span class="hljs-keyword">int</span> <br><span class="hljs-comment">// ch1:通道名</span><br><span class="hljs-comment">// chan &lt;- :指定了通道的方向，为仅发送的通道</span><br><span class="hljs-comment">// int :指定了该通道内元素为int</span><br>ch2 &lt;- <span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span><br><span class="hljs-comment">// ch2:通道名</span><br><span class="hljs-comment">// &lt;- chan:指定了通道的方向，为仅接收的通道</span><br><span class="hljs-comment">// int:指定了该通道内元素为int</span><br><br>单向通道主要用来防止通道被滥用，约束函数的行为<br>在使用过程中，任何时间将双向通道转换为单向通道都是可行的，但是反过来是不允许的<br></code></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs go">ch1 <span class="hljs-keyword">chan</span> &lt;- <span class="hljs-keyword">int</span> p<br><span class="hljs-comment">// ch1:通道名</span><br><span class="hljs-comment">// chan &lt;- :指定了通道的方向，为仅发送的通道</span><br><span class="hljs-comment">// int :指定了该通道内元素为int</span><br>ch2 &lt;- <span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span><br><span class="hljs-comment">// ch2:通道名</span><br><span class="hljs-comment">// &lt;- chan:指定了通道的方向，为仅接收的通道</span><br><span class="hljs-comment">// int:指定了该通道内元素为int</span><br><br>单向通道主要用来防止通道被滥用，约束函数的行为<br>在使用过程中，任何时间将双向通道转换为单向通道都是可行的，但是反过来是不允许的<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>通道可以设置缓冲，通过make设置的可选参数进行调整，默认为无缓冲通道。无缓冲通道的发送接收流程是阻塞的，只要发送的信息违背接收没发送操作将被阻塞，直到上一个信息被接。缓冲通道在上一条信息为被接收时根据缓冲区大小仍可以进行发送信息操作，直到缓冲区为零，接收操作类似。</p>
 </li>
@@ -256,7 +256,7 @@
 </li>
 </ul>
 </li>
-<li><p>相关用法</p>
+<li><p>声明和用法</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	ch1 := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>)<br><br>	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>		<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ &#123;<br>			ch1 &lt;- i<br>		&#125;<br>		<span class="hljs-comment">// close(ch1) // 若不进行主动的通道关闭，将会从一个已经空了的通道内获取值，导致死锁</span><br>	&#125;()<br><br>	<span class="hljs-keyword">for</span> &#123;<br>        j, status := &lt;- ch1 <span class="hljs-comment">// 第一个参数为通道内的值，第二个参数为通道状态标识，false(通道关闭),true(通道开启)</span><br>		<span class="hljs-keyword">if</span> !status &#123;<br>			fmt.Printf(<span class="hljs-string">&quot;status:::%v\n&quot;</span>, status) <span class="hljs-comment">// false</span><br>			fmt.Printf(<span class="hljs-string">&quot;chan1 is already closed!\n&quot;</span>)<br>			<span class="hljs-keyword">break</span><br>		&#125;<br>		fmt.Printf(<span class="hljs-string">&quot;status:::%v\n&quot;</span>, status) <span class="hljs-comment">// true</span><br>		fmt.Printf(<span class="hljs-string">&quot;the value is %v\n&quot;</span>, j) <span class="hljs-comment">// 0,1,2,3,4,5,6,7,8,9</span><br>	&#125;<br>&#125;<br><span class="hljs-comment">// 日常中应该注意，无缓冲通道和缓冲通道缓冲用尽后均为同步操作，要避免出现死锁</span><br></code></pre></td></tr></table></figure>
 
 
